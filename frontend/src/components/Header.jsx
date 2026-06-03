@@ -46,7 +46,7 @@ const Header = () => {
             onClick={() => scrollToSection('hero')}
             className="flex items-center transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
-            <Logo className="h-12 w-auto" />
+            <Logo className="h-16 w-auto" />
           </button>
 
           {/* Desktop Navigation */}
