@@ -1,1 +1,100 @@
-import React, { useState, useEffect } from 'react';\nimport { useAuth } from '@/contexts/AuthContext';\nimport { Navigate } from 'react-router-dom';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';\nimport { Input } from '@/components/ui/input';\nimport { Badge } from '@/components/ui/badge';\nimport api, { formatCurrency } from '@/utils/api';\nimport { toast } from 'sonner';\nimport { Pencil, Trash2, Plus } from 'lucide-react';\n\nconst AdminProducts = () => {\n  const { isAuthenticated } = useAuth();\n  const [products, setProducts] = useState([]);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    fetchProducts();\n  }, []);\n\n  const fetchProducts = async () => {\n    try {\n      const response = await api.get('/products');\n      setProducts(response.data);\n    } catch (error) {\n      console.error('Error fetching products:', error);\n      toast.error('Error al cargar productos');\n    } finally {\n      setLoading(false);\n    }\n  };\n\n  const toggleAvailability = async (productId, currentStatus) => {\n    try {\n      await api.put(`/products/${productId}`, { available: !currentStatus });\n      toast.success('Disponibilidad actualizada');\n      fetchProducts();\n    } catch (error) {\n      console.error('Error updating product:', error);\n      toast.error('Error al actualizar producto');\n    }\n  };\n\n  const deleteProduct = async (productId) => {\n    if (!window.confirm('\u00bfEst\u00e1s seguro de eliminar este producto?')) return;\n    \n    try {\n      await api.delete(`/products/${productId}`);\n      toast.success('Producto eliminado');\n      fetchProducts();\n    } catch (error) {\n      console.error('Error deleting product:', error);\n      toast.error('Error al eliminar producto');\n    }\n  };\n\n  if (!isAuthenticated) {\n    return <Navigate to=\"/admin/login\" />;\n  }\n\n  if (loading) {\n    return (\n      <div className=\"min-h-screen pt-32 pb-20 px-4 bg-gray-50\">\n        <div className=\"container mx-auto text-center\">\n          <p>Cargando productos...</p>\n        </div>\n      </div>\n    );\n  }\n\n  return (\n    <div className=\"min-h-screen pt-32 pb-20 px-4 bg-gray-50\">\n      <div className=\"container mx-auto\">\n        <div className=\"flex justify-between items-center mb-8\">\n          <h1 className=\"text-4xl font-bold text-sky-900\">Gesti\u00f3n de Productos</h1>\n          <Button className=\"bg-sky-600 hover:bg-sky-700\">\n            <Plus className=\"w-4 h-4 mr-2\" />\n            Nuevo Producto\n          </Button>\n        </div>\n\n        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n          {products.map((product) => (\n            <Card key={product.id}>\n              <CardHeader>\n                <img \n                  src={product.image_url} \n                  alt={product.name}\n                  className=\"w-full h-48 object-cover rounded-lg mb-4\"\n                />\n                <div className=\"flex items-center justify-between\">\n                  <Badge className={product.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>\n                    {product.available ? 'Disponible' : 'No Disponible'}\n                  </Badge>\n                  {product.featured && <Badge className=\"bg-amber-100 text-amber-700\">Destacado</Badge>}\n                </div>\n                <CardTitle className=\"mt-2\">{product.name}</CardTitle>\n                <p className=\"text-2xl font-bold text-amber-600\">{formatCurrency(product.price)}</p>\n              </CardHeader>\n              <CardContent>\n                <p className=\"text-sm text-gray-600 mb-4\">{product.description}</p>\n                <div className=\"flex gap-2\">\n                  <Button\n                    size=\"sm\"\n                    variant=\"outline\"\n                    onClick={() => toggleAvailability(product.id, product.available)}\n                    className=\"flex-1\"\n                  >\n                    {product.available ? 'Deshabilitar' : 'Habilitar'}\n                  </Button>\n                  <Button\n                    size=\"sm\"\n                    variant=\"outline\"\n                    onClick={() => deleteProduct(product.id)}\n                    className=\"text-red-600 hover:text-red-700\"\n                  >\n                    <Trash2 className=\"w-4 h-4\" />\n                  </Button>\n                </div>\n              </CardContent>\n            </Card>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default AdminProducts;\n
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import api, { formatCurrency } from '@/utils/api';
+import { toast } from 'sonner';
+import { Trash2, Plus } from 'lucide-react';
+
+const AdminProducts = () => {
+  const { isAuthenticated } = useAuth();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get('/products');
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Error al cargar productos');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleAvailability = async (productId, currentStatus) => {
+    try {
+      await api.put(`/products/${productId}`, { available: !currentStatus });
+      toast.success('Actualizado');
+      fetchProducts();
+    } catch (error) {
+      toast.error('Error');
+    }
+  };
+
+  const deleteProduct = async (productId) => {
+    if (!window.confirm('Eliminar producto?')) return;
+    try {
+      await api.delete(`/products/${productId}`);
+      toast.success('Eliminado');
+      fetchProducts();
+    } catch (error) {
+      toast.error('Error');
+    }
+  };
+
+  if (!isAuthenticated) return <Navigate to="/admin/login" />;
+  if (loading) return <div className="min-h-screen pt-32 px-4"><p className="text-center">Cargando...</p></div>;
+
+  return (
+    <div className="min-h-screen pt-32 pb-20 px-4 bg-gray-50">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-sky-900">Productos</h1>
+          <Button className="bg-sky-600 hover:bg-sky-700">
+            <Plus className="w-4 h-4 mr-2" />
+            Nuevo
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product) => (
+            <Card key={product.id}>
+              <CardHeader>
+                <img src={product.image_url} alt={product.name} className="w-full h-48 object-cover rounded-lg mb-4" />
+                <div className="flex gap-2 mb-2">
+                  <Badge className={product.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>
+                    {product.available ? 'Disponible' : 'No Disponible'}
+                  </Badge>
+                  {product.featured && <Badge className="bg-amber-100 text-amber-700">Destacado</Badge>}
+                </div>
+                <CardTitle>{product.name}</CardTitle>
+                <p className="text-2xl font-bold text-amber-600">{formatCurrency(product.price)}</p>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-4">{product.description}</p>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" onClick={() => toggleAvailability(product.id, product.available)} className="flex-1">
+                    {product.available ? 'Deshabilitar' : 'Habilitar'}
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => deleteProduct(product.id)} className="text-red-600">
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminProducts;

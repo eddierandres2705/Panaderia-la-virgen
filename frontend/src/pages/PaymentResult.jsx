@@ -1,1 +1,27 @@
-import React, { useState, useEffect } from 'react';\nimport { useSearchParams, useNavigate } from 'react-router-dom';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Button } from '@/components/ui/button';\nimport { CheckCircle2, XCircle, Clock, Home } from 'lucide-react';\nimport api, { formatCurrency } from '@/utils/api';\n\nconst PaymentResult = () => {\n  const [searchParams] = useSearchParams();\n  const navigate = useNavigate();\n  const [status, setStatus] = useState('loading');\n  const [orderData, setOrderData] = useState(null);\n  \n  const orderId = searchParams.get('orderId');\n  const txId = searchParams.get('tx');\n\n  useEffect(() => {\n    if (!txId || !orderId) {\n      navigate('/');\n      return;\n    }\n\n    const pollTransaction = async () => {\n      try {\n        const response = await api.get(`/payments/transactions/${txId}`);\n        const txStatus = response.data.status;\n        \n        setOrderData(response.data);\n\n        if (txStatus === 'APPROVED') {\n          setStatus('success');\n        } else if (['DECLINED', 'ERROR', 'FAILED'].includes(txStatus)) {\n          setStatus('error');\n        } else {\n          setStatus('pending');\n          // Poll again after 3 seconds\n          setTimeout(pollTransaction, 3000);\n        }\n      } catch (error) {\n        console.error('Error polling transaction:', error);\n        setStatus('error');\n      }\n    };\n\n    pollTransaction();\n  }, [txId, orderId]);\n\n  const getIcon = () => {\n    switch (status) {\n      case 'success':\n        return <CheckCircle2 className=\"w-24 h-24 text-green-500 mx-auto mb-4\" />;\n      case 'error':\n        return <XCircle className=\"w-24 h-24 text-red-500 mx-auto mb-4\" />;\n      default:\n        return <Clock className=\"w-24 h-24 text-amber-500 mx-auto mb-4 animate-pulse\" />;\n    }\n  };\n\n  const getTitle = () => {\n    switch (status) {\n      case 'success':\n        return '\u00a1Pago Exitoso!';\n      case 'error':\n        return 'Pago Fallido';\n      default:\n        return 'Procesando Pago...';\n    }\n  };\n\n  const getMessage = () => {\n    switch (status) {\n      case 'success':\n        return 'Tu pago ha sido procesado exitosamente. Recibir\u00e1s una confirmaci\u00f3n por email.';\n      case 'error':\n        return 'Hubo un problema con tu pago. Por favor intenta nuevamente.';\n      default:\n        return 'Estamos verificando tu pago. Por favor espera...';\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-white to-sky-50\">\n      <div className=\"container mx-auto max-w-2xl\">\n        <Card className=\"text-center\">\n          <CardHeader>\n            {getIcon()}\n            <CardTitle className=\"text-3xl\">{getTitle()}</CardTitle>\n          </CardHeader>\n          <CardContent className=\"space-y-6\">\n            <p className=\"text-lg text-gray-600\">{getMessage()}</p>\n            \n            {orderData && (\n              <div className=\"bg-gray-50 p-4 rounded-lg\">\n                <p className=\"text-sm text-gray-600 mb-2\">Total pagado:</p>\n                <p className=\"text-2xl font-bold text-sky-900\">\n                  {formatCurrency(orderData.amount)}\n                </p>\n              </div>\n            )}\n\n            {status !== 'loading' && (\n              <Button\n                onClick={() => navigate('/')}\n                className=\"bg-sky-600 hover:bg-sky-700\"\n              >\n                <Home className=\"w-4 h-4 mr-2\" />\n                Volver al Inicio\n              </Button>\n            )}\n          </CardContent>\n        </Card>\n      </div>\n    </div>\n  );\n};\n\nexport default PaymentResult;\n
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { CheckCircle2, Home } from 'lucide-react';
+
+const PaymentResult = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-white to-sky-50">
+      <div className="container mx-auto max-w-2xl text-center">
+        <Card className="p-12">
+          <CheckCircle2 className="w-24 h-24 text-green-500 mx-auto mb-6" />
+          <h1 className="text-4xl font-bold text-sky-900 mb-4">Pago Procesado</h1>
+          <p className="text-gray-600 mb-8">Tu pago está siendo verificado. Recibirás una confirmación pronto.</p>
+          <Button onClick={() => navigate('/')} className="bg-sky-600 hover:bg-sky-700">
+            <Home className="w-4 h-4 mr-2" />
+            Volver al Inicio
+          </Button>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default PaymentResult;
