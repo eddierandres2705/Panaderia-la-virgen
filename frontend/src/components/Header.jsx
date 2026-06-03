@@ -73,32 +73,36 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* CTA Buttons */}
+          <div className="flex items-center space-x-2 md:space-x-4">
+            {/* Cart button - always visible */}
             <CartButton />
+            
+            {/* Admin and Phone - desktop only */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate(isAuthenticated ? '/admin/dashboard' : '/admin/login')}
               title={isAuthenticated ? "Admin Dashboard" : "Admin Login"}
+              className="hidden md:flex"
             >
               <User className="w-5 h-5" />
             </Button>
-            <a href="tel:3214218996">
+            <a href="tel:3214218996" className="hidden md:block">
               <Button className="bg-amber-500 hover:bg-amber-600 text-white transition-all duration-300 shadow-md hover:shadow-lg">
                 <Phone className="w-4 h-4 mr-2" />
                 321 4218996
               </Button>
             </a>
+            
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-gray-700 hover:text-sky-600 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gray-700 hover:text-sky-600 transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
 
         {/* Mobile Menu */}
