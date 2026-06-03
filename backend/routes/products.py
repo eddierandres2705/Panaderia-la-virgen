@@ -5,7 +5,8 @@ from datetime import datetime
 
 from models.product import ProductCreate, ProductUpdate, ProductResponse
 from utils.auth import get_admin_user
-from db import products_collection
+import db
+# db.products_collection
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -37,12 +38,12 @@ async def list_products(
     if featured is not None:
         query["featured"] = featured
     
-    products = await products_collection.find(query).to_list(1000)
+    products = await db.products_collection.find(query).to_list(1000)
     return [product_doc_to_response(p) for p in products]
 
 @router.get("/{product_id}", response_model=ProductResponse)
 async def get_product(product_id: str):
-    product = await products_collection.find_one({"_id": ObjectId(product_id)})
+    product = await db.products_collection.find_one({"_id": ObjectId(product_id)})
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product_doc_to_response(product)
@@ -56,7 +57,7 @@ async def create_product(
     product_dict["created_at"] = datetime.utcnow()
     product_dict["updated_at"] = datetime.utcnow()
     
-    result = await products_collection.insert_one(product_dict)
+    result = await db.products_collection.insert_one(product_dict)
     product_dict["_id"] = result.inserted_id
     
     return product_doc_to_response(product_dict)
@@ -74,7 +75,7 @@ async def update_product(
     
     update_data["updated_at"] = datetime.utcnow()
     
-    result = await products_collection.update_one(
+    result = await db.products_collection.update_one(
         {"_id": ObjectId(product_id)},
         {"$set": update_data}
     )
@@ -82,7 +83,7 @@ async def update_product(
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    updated_product = await products_collection.find_one({"_id": ObjectId(product_id)})
+    updated_product = await db.products_collection.find_one({"_id": ObjectId(product_id)})
     return product_doc_to_response(updated_product)
 
 @router.delete("/{product_id}")
@@ -90,7 +91,7 @@ async def delete_product(
     product_id: str,
     current_user: dict = Depends(get_admin_user)
 ):
-    result = await products_collection.delete_one({"_id": ObjectId(product_id)})
+    result = await db.products_collection.delete_one({"_id": ObjectId(product_id)})
     
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Product not found")

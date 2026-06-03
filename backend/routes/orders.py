@@ -5,7 +5,8 @@ from datetime import datetime
 
 from models.order import OrderCreate, OrderResponse, OrderStatusUpdate
 from utils.auth import get_admin_user
-from db import orders_collection
+import db
+# db.orders_collection
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -47,14 +48,14 @@ async def create_order(order: OrderCreate):
     order_dict["created_at"] = datetime.utcnow()
     order_dict["updated_at"] = datetime.utcnow()
     
-    result = await orders_collection.insert_one(order_dict)
+    result = await db.orders_collection.insert_one(order_dict)
     order_dict["_id"] = result.inserted_id
     
     return order_doc_to_response(order_dict)
 
 @router.get("/{order_id}", response_model=OrderResponse)
 async def get_order(order_id: str):
-    order = await orders_collection.find_one({"_id": ObjectId(order_id)})
+    order = await db.orders_collection.find_one({"_id": ObjectId(order_id)})
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return order_doc_to_response(order)
@@ -68,7 +69,7 @@ async def list_orders(
     if status:
         query["status"] = status
     
-    orders = await orders_collection.find(query).sort("created_at", -1).to_list(1000)
+    orders = await db.orders_collection.find(query).sort("created_at", -1).to_list(1000)
     return [order_doc_to_response(o) for o in orders]
 
 @router.patch("/{order_id}/status")
@@ -77,7 +78,7 @@ async def update_order_status(
     status_update: OrderStatusUpdate,
     current_user: dict = Depends(get_admin_user)
 ):
-    result = await orders_collection.update_one(
+    result = await db.orders_collection.update_one(
         {"_id": ObjectId(order_id)},
         {
             "$set": {
@@ -90,5 +91,5 @@ async def update_order_status(
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Order not found")
     
-    updated_order = await orders_collection.find_one({"_id": ObjectId(order_id)})
+    updated_order = await db.orders_collection.find_one({"_id": ObjectId(order_id)})
     return order_doc_to_response(updated_order)

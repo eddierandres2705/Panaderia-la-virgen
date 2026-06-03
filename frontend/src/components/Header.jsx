@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, Phone, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/Logo';
+import CartButton from '@/components/CartButton';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -65,6 +67,15 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
+            <CartButton />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate(isAuthenticated ? '/admin/dashboard' : '/admin/login')}
+              title={isAuthenticated ? "Admin Dashboard" : "Admin Login"}
+            >
+              <User className="w-5 h-5" />
+            </Button>
             <a href="tel:3214218996">
               <Button className="bg-amber-500 hover:bg-amber-600 text-white transition-all duration-300 shadow-md hover:shadow-lg">
                 <Phone className="w-4 h-4 mr-2" />

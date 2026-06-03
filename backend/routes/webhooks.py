@@ -4,7 +4,8 @@ from datetime import datetime
 import hmac
 import hashlib
 
-from db import transactions_collection, orders_collection
+import db
+# db.transactions_collection, db.orders_collection
 from config import get_settings
 
 router = APIRouter(prefix="/webhooks", tags=["webhooks"])
@@ -52,7 +53,7 @@ async def wompi_webhook(request: Request, wompi_hash: str = Header(None)):
         return {"received": True, "invalid_reference": True}
     
     # Find transaction
-    tx = await transactions_collection.find_one({"_id": tx_object_id})
+    tx = await db.transactions_collection.find_one({"_id": tx_object_id})
     if not tx:
         print(f"⚠️ Transaction not found: {tx_reference}")
         return {"received": True, "unknown_transaction": True}
@@ -61,7 +62,7 @@ async def wompi_webhook(request: Request, wompi_hash: str = Header(None)):
     
     # Update transaction if status changed
     if old_status != status:
-        await transactions_collection.update_one(
+        await db.transactions_collection.update_one(
             {"_id": tx_object_id},
             {
                 "$set": {"status": status, "updated_at": datetime.utcnow()},
@@ -80,14 +81,14 @@ async def wompi_webhook(request: Request, wompi_hash: str = Header(None)):
         
         # Update order status based on transaction status
         if status == "APPROVED":
-            await orders_collection.update_one(
+            await db.orders_collection.update_one(
                 {"_id": tx["order_id"]},
                 {"$set": {"status": "paid", "payment_method": tx["payment_method_type"].lower(), "updated_at": datetime.utcnow()}},
             )
             print(f"✅ Order {tx['order_id']} marked as PAID")
             
         elif status in ("DECLINED", "REJECTED", "ERROR", "VOIDED"):
-            await orders_collection.update_one(
+            await db.orders_collection.update_one(
                 {"_id": tx["order_id"]},
                 {"$set": {"status": "payment_failed", "updated_at": datetime.utcnow()}},
             )

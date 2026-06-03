@@ -10,7 +10,7 @@ from config import get_settings
 from db import init_mongo, close_mongo
 
 # Import routes
-from routes import auth, products, orders, payments, webhooks
+from routes import auth, products, orders, payments, webhooks, seed
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -56,6 +56,7 @@ api_router.include_router(products.router)
 api_router.include_router(orders.router)
 api_router.include_router(payments.router)
 api_router.include_router(webhooks.router)
+api_router.include_router(seed.router)
 
 # Include API router in main app
 app.include_router(api_router)

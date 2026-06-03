@@ -4,7 +4,7 @@ from bson import ObjectId
 
 from models.user import UserLogin, TokenResponse, UserResponse
 from utils.auth import verify_password, create_access_token, get_password_hash
-from db import users_collection
+import db
 from config import get_settings
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
@@ -13,7 +13,7 @@ settings = get_settings()
 @router.post("/login", response_model=TokenResponse)
 async def login(credentials: UserLogin):
     # Find user
-    user = await users_collection.find_one({"username": credentials.username})
+    user = await db.users_collection.find_one({"username": credentials.username})
     
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -23,7 +23,7 @@ async def login(credentials: UserLogin):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     # Update last login
-    await users_collection.update_one(
+    await db.users_collection.update_one(
         {"_id": user["_id"]},
         {"$set": {"last_login": datetime.utcnow()}}
     )
@@ -42,7 +42,7 @@ async def login(credentials: UserLogin):
 @router.post("/seed-admin")
 async def seed_admin():
     """Create default admin user if not exists"""
-    existing = await users_collection.find_one({"username": "Admin"})
+    existing = await db.users_collection.find_one({"username": "Admin"})
     
     if existing:
         return {"message": "Admin user already exists"}
@@ -55,5 +55,5 @@ async def seed_admin():
         "last_login": None
     }
     
-    await users_collection.insert_one(admin_user)
+    await db.users_collection.insert_one(admin_user)
     return {"message": "Admin user created successfully"}
