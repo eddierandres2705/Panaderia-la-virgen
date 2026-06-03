@@ -42,15 +42,12 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-sky-500 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-2xl font-bold text-white">PV</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-sky-700">Panadería de la Virgen</h1>
-              <p className="text-xs text-amber-600">Desde 2006</p>
-            </div>
-          </div>
+          <button 
+            onClick={() => scrollToSection('hero')}
+            className="flex items-center transition-transform duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Logo className="h-12 w-auto" />
+          </button>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">

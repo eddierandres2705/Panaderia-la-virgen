@@ -9,12 +9,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <Logo className="w-14 h-14 drop-shadow-lg" />
-              <div>
-                <h3 className="text-lg font-bold">Panadería de la Virgen</h3>
-                <p className="text-sky-300 text-sm">Tradición desde 2006</p>
-              </div>
+            <div className="mb-4">
+              <Logo className="h-24 w-auto mx-auto md:mx-0" />
             </div>
             <p className="text-sky-200 text-sm leading-relaxed">
               20 años horneando momentos felices en Puerto Carreño. Calidad, tradición y sabor en cada producto.
