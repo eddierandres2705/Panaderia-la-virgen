@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family:
+        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@layer base {
+    :root {
+        /* Panadería de la Virgen - Custom Color Palette */
+        --background: 0 0% 100%;
+        --foreground: 202 91% 19%;
+        --card: 0 0% 100%;
+        --card-foreground: 202 91% 19%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 202 91% 19%;
+        --primary: 199 89% 48%; /* Sky blue from sign */
+        --primary-foreground: 0 0% 100%;
+        --secondary: 45 93% 58%; /* Golden yellow from wheat */
+        --secondary-foreground: 202 91% 19%;
+        --muted: 199 30% 96%;
+        --muted-foreground: 199 20% 45%;
+        --accent: 45 93% 58%;
+        --accent-foreground: 202 91% 19%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 199 25% 90%;
+        --input: 199 25% 90%;
+        --ring: 199 89% 48%;
+        --chart-1: 199 89% 48%;
+        --chart-2: 45 93% 58%;
+        --chart-3: 202 91% 19%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.75rem;
+    }
+    .dark {
+        --background: 202 91% 19%;
+        --foreground: 0 0% 98%;
+        --card: 202 80% 25%;
+        --card-foreground: 0 0% 98%;
+        --popover: 202 80% 25%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 199 89% 48%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 45 93% 58%;
+        --secondary-foreground: 202 91% 19%;
+        --muted: 202 40% 35%;
+        --muted-foreground: 199 20% 70%;
+        --accent: 45 93% 58%;
+        --accent-foreground: 202 91% 19%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 202 40% 35%;
+        --input: 202 40% 35%;
+        --ring: 199 89% 48%;
+        --chart-1: 199 89% 48%;
+        --chart-2: 45 93% 58%;
+        --chart-3: 202 91% 19%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+
+    [data-debug-wrapper="true"] > * {
+        margin-left: inherit;
+        margin-right: inherit;
+        margin-top: inherit;
+        margin-bottom: inherit;
+        padding-left: inherit;
+        padding-right: inherit;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        column-gap: inherit;
+        row-gap: inherit;
+        gap: inherit;
+        border-left-width: inherit;
+        border-right-width: inherit;
+        border-top-width: inherit;
+        border-bottom-width: inherit;
+        border-left-style: inherit;
+        border-right-style: inherit;
+        border-top-style: inherit;
+        border-bottom-style: inherit;
+        border-left-color: inherit;
+        border-right-color: inherit;
+        border-top-color: inherit;
+        border-bottom-color: inherit;
+    }
+}
