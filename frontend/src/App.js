@@ -11,6 +11,7 @@ import AdminOrders from "@/pages/admin/Orders";
 import AdminProducts from "@/pages/admin/Products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/admin/products" element={<AdminProducts />} />
             </Routes>
             <Footer />
+            <WhatsAppButton />
             <Toaster />
           </BrowserRouter>
         </CartProvider>
