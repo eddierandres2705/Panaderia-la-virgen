@@ -6,7 +6,7 @@ export const products = [
     name: "Tortas de Cumpleaños",
     description: "Tortas personalizadas para cada celebración. Elige tu sabor favorito y diseño único.",
     category: "Tortas",
-    price: "Desde $45.000",
+    price: 4500000,  // $45.000 COP in centavos
     image: "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=800&q=80"
   },
   {
@@ -14,7 +14,7 @@ export const products = [
     name: "Brazo de Reina Frío",
     description: "Un clásico que encanta por su suavidad. Perfecto para compartir en familia.",
     category: "Postres",
-    price: "$35.000",
+    price: 3500000,  // $35.000
     image: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800&q=80"
   },
   {
@@ -22,7 +22,7 @@ export const products = [
     name: "Galletas Artesanales",
     description: "Perfectas para acompañar tu café. Variedad de sabores únicos.",
     category: "Galletas",
-    price: "$12.000/docena",
+    price: 1200000,  // $12.000/docena
     image: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800&q=80"
   },
   {
@@ -30,7 +30,7 @@ export const products = [
     name: "Tartas Especiales",
     description: "Dulces que convierten cualquier día en especial. Para toda ocasión.",
     category: "Tartas",
-    price: "Desde $30.000",
+    price: 3000000,  // $30.000
     image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80"
   },
   {
@@ -38,7 +38,7 @@ export const products = [
     name: "Pan Fresco Diario",
     description: "Variedad de pan recién horneado todos los días. Calidad y sabor garantizados.",
     category: "Pan",
-    price: "Desde $1.500",
+    price: 150000,  // $1.500
     image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80"
   },
   {
@@ -46,7 +46,7 @@ export const products = [
     name: "Postres del Día",
     description: "Deliciosos postres frescos preparados diariamente con ingredientes de calidad.",
     category: "Postres",
-    price: "Desde $8.000",
+    price: 800000,  // $8.000
     image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80"
   }
 ];

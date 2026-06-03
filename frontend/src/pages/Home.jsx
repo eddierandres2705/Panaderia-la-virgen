@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { products, reviews, timeline, contactInfo } from '@/mock';
 import { useCart } from '@/contexts/CartContext';
 import { toast as sonnerToast } from 'sonner';
+import { formatCurrency } from '@/utils/api';
 
 const Home = () => {
   const { addToCart } = useCart();
@@ -151,7 +152,7 @@ const Home = () => {
                   <CardDescription className="text-gray-600">{product.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-amber-600 mb-4">{product.price}</p>
+                  <p className="text-2xl font-bold text-amber-600 mb-4">{formatCurrency(product.price)}</p>
                   <Button 
                     onClick={() => handleAddToCart(product)}
                     className="w-full bg-sky-600 hover:bg-sky-700 transition-colors"
