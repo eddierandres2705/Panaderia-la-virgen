@@ -8,7 +8,7 @@ const PaymentResult = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-white to-sky-50">
+    <div className="min-h-screen pt-48 pb-20 px-4 bg-gradient-to-b from-white to-sky-50">
       <div className="container mx-auto max-w-2xl text-center">
         <Card className="p-12">
           <CheckCircle2 className="w-24 h-24 text-green-500 mx-auto mb-6" />

@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import { Star, MapPin, Phone, Clock, Award, ShoppingBag, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Star, MapPin, Phone, Clock, Award, ShoppingBag, ChevronRight, CheckCircle2, ShoppingCart } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { products, reviews, timeline, contactInfo } from '@/mock';
-import { useToast } from '@/hooks/use-toast';
+import { useCart } from '@/contexts/CartContext';
 import { toast as sonnerToast } from 'sonner';
 
 const Home = () => {
+  const { addToCart } = useCart();
   const [orderForm, setOrderForm] = useState({
     name: '',
     phone: '',
     product: '',
     message: ''
   });
+
+  const handleAddToCart = (product) => {
+    addToCart(product, 1);
+    sonnerToast.success(`${product.name} agregado al carrito`);
+  };
 
   const handleOrderSubmit = (e) => {
     e.preventDefault();
@@ -147,11 +153,11 @@ const Home = () => {
                 <CardContent>
                   <p className="text-2xl font-bold text-amber-600 mb-4">{product.price}</p>
                   <Button 
-                    onClick={() => document.getElementById('order').scrollIntoView({ behavior: 'smooth' })}
+                    onClick={() => handleAddToCart(product)}
                     className="w-full bg-sky-600 hover:bg-sky-700 transition-colors"
                   >
-                    Ordenar Ahora
-                    <ChevronRight className="w-4 h-4 ml-2" />
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    Agregar al Carrito
                   </Button>
                 </CardContent>
               </Card>

@@ -144,7 +144,7 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 bg-gradient-to-b from-white to-sky-50">
+    <div className="min-h-screen pt-48 pb-20 px-4 bg-gradient-to-b from-white to-sky-50">
       <div className="container mx-auto max-w-4xl">
         <h1 className="text-4xl font-bold text-sky-900 mb-8">Finalizar Compra</h1>
 

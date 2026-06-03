@@ -61,7 +61,7 @@ const AdminOrders = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-32 pb-20 px-4 bg-gray-50">
+      <div className="min-h-screen pt-48 pb-20 px-4 bg-gray-50">
         <div className="container mx-auto text-center">
           <p>Cargando órdenes...</p>
         </div>
@@ -70,7 +70,7 @@ const AdminOrders = () => {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 bg-gray-50">
+    <div className="min-h-screen pt-48 pb-20 px-4 bg-gray-50">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold text-sky-900 mb-8">Gestión de Órdenes</h1>
 
