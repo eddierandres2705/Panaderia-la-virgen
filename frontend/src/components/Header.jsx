@@ -28,10 +28,8 @@ const Header = () => {
   };
 
   const navItems = [
-    { label: 'Inicio', id: 'hero' },
-    { label: 'Nosotros', id: 'about' },
-    { label: 'Productos', id: 'products' },
-    { label: 'Reseñas', id: 'reviews' },
+    { label: 'Inicio', path: '/' },
+    { label: 'Productos', path: '/productos' },
     { label: 'Contacto', id: 'contact' }
   ];
 
