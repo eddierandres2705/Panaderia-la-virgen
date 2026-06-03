@@ -3,6 +3,11 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Remove any potential yellow bars */
+header, header * {
+    border-bottom: none !important;
+}
+
 /* Animations */
 @keyframes fadeInUp {
     from {
