@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Facebook, Instagram, Mail } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 const Footer = () => {
   return (
@@ -9,9 +10,7 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold">PV</span>
-              </div>
+              <Logo className="w-14 h-14 drop-shadow-lg" />
               <div>
                 <h3 className="text-lg font-bold">Panadería de la Virgen</h3>
                 <p className="text-sky-300 text-sm">Tradición desde 2006</p>
