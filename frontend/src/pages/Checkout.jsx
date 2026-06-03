@@ -61,7 +61,7 @@ const Checkout = () => {
         document_number: formData.document_number
       },
       items: cart.map(item => ({
-        product_id: item.id,
+        product_id: String(item.id),
         product_name: item.name,
         quantity: item.quantity,
         unit_price: item.price,

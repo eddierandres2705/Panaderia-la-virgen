@@ -78,16 +78,18 @@ const Header = () => {
             {/* Cart button - always visible */}
             <CartButton />
             
-            {/* Admin and Phone - desktop only */}
+            {/* Admin Login - always visible */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate(isAuthenticated ? '/admin/dashboard' : '/admin/login')}
               title={isAuthenticated ? "Admin Dashboard" : "Admin Login"}
-              className="hidden md:flex"
+              className="flex"
             >
               <User className="w-5 h-5" />
             </Button>
+            
+            {/* Phone - desktop only */}
             <a href="tel:3214218996" className="hidden md:block">
               <Button className="bg-amber-500 hover:bg-amber-600 text-white transition-all duration-300 shadow-md hover:shadow-lg">
                 <Phone className="w-4 h-4 mr-2" />
@@ -117,16 +119,6 @@ const Header = () => {
                 {item.label}
               </button>
             ))}
-            <button
-              onClick={() => {
-                navigate(isAuthenticated ? '/admin/dashboard' : '/admin/login');
-                setIsMobileMenuOpen(false);
-              }}
-              className="block w-full text-left py-3 px-4 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg transition-colors"
-            >
-              <User className="w-4 h-4 inline mr-2" />
-              {isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}
-            </button>
             <a href="tel:3214218996" className="block mt-4">
               <Button className="w-full bg-amber-500 hover:bg-amber-600 text-white">
                 <Phone className="w-4 h-4 mr-2" />
