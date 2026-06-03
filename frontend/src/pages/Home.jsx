@@ -42,15 +42,15 @@ const Home = () => {
       <section id="hero" className="pt-32 pb-20 px-4">
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-amber-100 text-amber-700 border-amber-300 mb-6 text-sm px-4 py-2">
-              <Award className="w-4 h-4 mr-2 inline" />
-              4.3 ⭐ • 112+ Reseñas Positivas
-            </Badge>
             <h1 className="text-5xl md:text-7xl font-bold text-sky-900 mb-6 leading-tight">
               20 años horneando
               <span className="block text-amber-500">momentos felices</span>
               <span className="block text-4xl md:text-5xl mt-2">en Puerto Carreño</span>
             </h1>
+            <Badge className="bg-amber-100 text-amber-700 border-amber-300 mb-6 text-sm px-4 py-2">
+              <Award className="w-4 h-4 mr-2 inline" />
+              4.3 ⭐ • 112+ Reseñas Positivas
+            </Badge>
             <p className="text-xl text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto">
               Panadería de la Virgen es tradición, sabor y calidad. Reconocidos como una de las mejores panaderías de Puerto Carreño.
             </p>
