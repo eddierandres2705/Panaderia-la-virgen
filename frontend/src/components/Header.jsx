@@ -117,6 +117,16 @@ const Header = () => {
                 {item.label}
               </button>
             ))}
+            <button
+              onClick={() => {
+                navigate(isAuthenticated ? '/admin/dashboard' : '/admin/login');
+                setIsMobileMenuOpen(false);
+              }}
+              className="block w-full text-left py-3 px-4 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg transition-colors"
+            >
+              <User className="w-4 h-4 inline mr-2" />
+              {isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}
+            </button>
             <a href="tel:3214218996" className="block mt-4">
               <Button className="w-full bg-amber-500 hover:bg-amber-600 text-white">
                 <Phone className="w-4 h-4 mr-2" />
