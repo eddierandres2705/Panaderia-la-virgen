@@ -28,6 +28,15 @@ const Header = () => {
     }
   };
 
+  const handleNavClick = (item) => {
+    if (item.path) {
+      navigate(item.path);
+    } else if (item.id) {
+      scrollToSection(item.id);
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   const navItems = [
     { label: 'Inicio', path: '/' },
     { label: 'Productos', path: '/productos' },
@@ -44,7 +53,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button 
-            onClick={() => scrollToSection('hero')}
+            onClick={() => navigate('/')}
             className="flex items-center transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Logo className="h-32 w-auto" />
@@ -52,10 +61,10 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                key={index}
+                onClick={() => handleNavClick(item)}
                 className="text-gray-700 hover:text-sky-600 font-medium transition-colors duration-200 relative group"
               >
                 {item.label}
@@ -95,10 +104,10 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4 animate-in slide-in-from-top duration-300">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                key={index}
+                onClick={() => handleNavClick(item)}
                 className="block w-full text-left py-3 px-4 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg transition-colors"
               >
                 {item.label}
